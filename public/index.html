@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="mainApp">
+	<head>
+		<title>AMB Taller</title>
+		<meta charset="UTF-8" />
+		<script type="text/javascript" src="js/angular.js"></script>
+		<script type="text/javascript" src="js/angular-route.js"></script>
+		<script type="text/javascript" src="js/controllers.js"></script>
+		<!--<script type="text/javascript" src="js/require.js"></script>-->
+
+		<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+		<link  rel="stylesheet" type="text/css" href="stylesheets/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/foundation.min.css" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/estilos.css"  />
+	</head>
+	<body>
+		<div  class="w3-container" ng-controller="initController">
+	 		<table class="table table-hover">
+	           <tr>
+	              <th>Funciones</th>
+	           </tr>
+			   <tr ng-repeat="item in items">		 
+			      <td><a ng-href="#/{{item.link}}">{{item.display}} </a></td> 
+			   </tr>
+			</table>
+		</div>
+		<div ng-view></div>	
+	</body>
+</html>

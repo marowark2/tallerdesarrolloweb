@@ -1,0 +1,15 @@
+<div  class="w3-container" ng-controller="allPersonasController">
+<table class="table table-hover">
+	<tr aling="center">
+		<th>Nombre</th>
+		<th>Apellido</th>
+		<th>Edad</th>
+	</tr>
+<!--{{personas[0].nombre}}-->
+	<tr ng-repeat="item in personas">		 
+		<td>{{item.nombre}}<b ng-if="!item.nombre">???</b></td> 
+		<td>{{item.apellido}}<b ng-if="!item.nombre">???</b></td> 
+		<td>{{item.edad}}<b ng-if="!item.nombre">???</b></td> 
+	</tr>
+</table>
+</div>
