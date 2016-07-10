@@ -59,6 +59,40 @@ app.controller("allPersonasController",["$scope","$http",function(s,h){
    }
   ]);
 
+app.controller("insertController", ["$scope","$http","$window","$location",function(s,h,w,l){
+	s.insertarPersona = function(){
+		var nombre = $("#idNombre").val();
+		var apellido = $("#idApellido").val();
+		var edad = $("#idEdad").val();
+		var query = "";
+		if (nombre == ""){
+			alert("insertar nombre");
+			return false;
+		}
+		if (apellido == ""){
+			alert("insertar Apellido");
+			return false;
+		}
+		if (edad == ""){
+			alert("insertar Edad");
+			return false;
+		}
+
+		query += "nombre="+nombre;
+		query += "&apellido="+apellido;
+		query += "&edad="+edad;
+
+		var url = "http://localhost:3000/insert?"+query;
+		h.post(url).success(function(data,status,headers,config){
+			alert("Se inserto correctamente");
+		})
+		.error(function(err){
+			alert(err);
+		});
+	}
+
+}]);
+
 app.controller("deleteController",["$scope","$http","$window","$location",function(s,h,w,l){
  s.eliminarPersona = function(){
 	var nombre 		= $("#idNombre").val();

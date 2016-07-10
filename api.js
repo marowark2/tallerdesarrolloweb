@@ -42,8 +42,8 @@ module.exports.getPersonasByFilter = function(req, res) {
 };
 //INSERT
 module.exports.insertPersona= function(req, res) {
-	console.log(req.body);
-	var persona1 = new model({nombre:req.body.nombre,apellido:req.body.apellido,edad:req.body.edad});
+	console.log(req.query);
+	var persona1 = new model({nombre:req.query.nombre,apellido:req.query.apellido,edad:req.query.edad});
 	persona1.save(function(error){
 		if (error)
 			return handleError(error);
