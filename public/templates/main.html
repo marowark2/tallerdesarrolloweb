@@ -9,7 +9,8 @@
 	<tr ng-repeat="item in personas">		 
 		<td>{{item.nombre}}<b ng-if="!item.nombre">???</b></td> 
 		<td>{{item.apellido}}<b ng-if="!item.apellido">???</b></td> 
-		<td>{{item.edad}}<b ng-if="!item.edad">???</b></td> 
+		<td>{{item.edad}}<b ng-if="!item.edad">???</b></td>
+		<td><button id="btnEliminar" ng-click="eliminarPersona(item)">Eliminar</button></td> 
 	</tr>
 </table>
 </div>

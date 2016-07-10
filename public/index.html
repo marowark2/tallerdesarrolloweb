@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="stylesheets/foundation.min.css" />
 		<link rel="stylesheet" type="text/css" href="stylesheets/estilos.css"  />
 	</head>
-	<body>
+	<body onLoad="if ('Navigator' === navigator.appName) document.forms[0].reset();">
 		<div  class="w3-container" ng-controller="initController">
 	 		<table class="table table-hover">
 	           <tr>

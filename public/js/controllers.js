@@ -28,23 +28,13 @@ app.config(function($routeProvider){
 });
 
 app.controller("initController",["$scope",function (m){
-	 m.items = [{
-	 	 display: "Inicio",
-	 	 link:"index"
-	  },{
-		 display: "Eliminar Persona",
-		 link:"delete"
-	  },{
-		 display: "Agregar Persona",
-		 link:"insert"
-	  },{
-		 display: "Modificar Persona",
-		 link:"update"
-	  },{
-		 display: "Buscar Persona",
-		 link:"search"
-		}
-	  ];
+	m.items = [{
+ 		display: "Inicio",
+ 		link:"index"},
+	{
+		display: "Agregar Persona",
+		link:"insert"}
+	];
  }]);
 
 app.controller("allPersonasController",["$scope","$http",function(s,h){
@@ -56,6 +46,24 @@ app.controller("allPersonasController",["$scope","$http",function(s,h){
 		console.log("hubo error al pedir los datos");
 		console.log(err);
 	});
+
+	s.eliminarPersona = function(item){
+		var query = "";
+		query += "nombre="+item.nombre;
+		query += "&apellido="+item.apellido;
+		query += "&edad="+item.edad;
+
+		var url = "http://localhost:3000/delete?"+query;
+		h.post(url)
+		.success(function(data,status,headers,config){
+			alert("se borro correctamente!");
+		})
+		.error(function(err){
+			console.log(err);
+		});
+	}
+
+
    }
   ]);
 
@@ -84,6 +92,7 @@ app.controller("insertController", ["$scope","$http","$window","$location",funct
 
 		var url = "http://localhost:3000/insert?"+query;
 		h.post(url).success(function(data,status,headers,config){
+			l.path('/index');  //si se quiere se vuelve a la pagina principal , o no
 			alert("Se inserto correctamente");
 		})
 		.error(function(err){
@@ -92,7 +101,7 @@ app.controller("insertController", ["$scope","$http","$window","$location",funct
 	}
 
 }]);
-
+/*
 app.controller("deleteController",["$scope","$http","$window","$location",function(s,h,w,l){
  s.eliminarPersona = function(){
 	var nombre 		= $("#idNombre").val();
@@ -125,3 +134,4 @@ app.controller("deleteController",["$scope","$http","$window","$location",functi
 	}
    }
   ]);
+  */
