@@ -27,7 +27,6 @@ var model = mongoose.model('personas', personaSchema);
 
 //GetByQuery
 module.exports.getPersonasByFilter = function(req, res) {
-	console.log("pase por api servidor");
 	if ((req === null) || (req === ''))
 	{
 		model.find(function(e,docs){
@@ -54,9 +53,16 @@ module.exports.insertPersona= function(req, res) {
 
 //REMOVE
 module.exports.deletePersona= function(req, res) {
-	model.remove(req.query,function(e,docs){ 
-			  res.send('se borro');
-})
+	//si el req es vacio, se borra toda la base de datos
+	if ((req !== null) || (req  !== {}) || (req !== ""))
+	{
+		model.remove(req.query,function(err, count){
+    	if(err)
+        	res.send({success: false, message:'error en la query'});
+        if(!err)
+     	   res.send({success: true, message:'se borraron '+count.result.n+' registros'});
+    	});
+	}
 };
 
 //UPDATE

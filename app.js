@@ -24,8 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes); // nos lleva a la index.html
 app.get('/index',db.getPersonasByFilter); //** OK
-app.get('/update',db.updatePersona);      //** HACIENDO
-app.get('/delete',db.deletePersona);
+app.get('/update',db.updatePersona);      
+app.post('/delete',db.deletePersona); 
 app.post('/insert',db.insertPersona);
 //app.get('/search',db.searchPersona);  
 

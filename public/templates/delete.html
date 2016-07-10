@@ -1,5 +1,5 @@
 <div ng-controller="deleteController">
-	<form action="delete">
+	<form ng-submit="eliminarPersona()" method="POST">
 		<p>Nombre</p><input type="text" id="idNombre">
 		<p>Apellido</p><input type="text" id="idApellido">
 		<p>Edad</p><input type="number" id="idEdad" valid-number>

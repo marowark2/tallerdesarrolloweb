@@ -59,13 +59,35 @@ app.controller("allPersonasController",["$scope","$http",function(s,h){
    }
   ]);
 
-app.controller("deleteController",["$attrs","$http",function(a,h){
-	
+app.controller("deleteController",["$scope","$http","$window","$location",function(s,h,w,l){
+ s.eliminarPersona = function(){
+	var nombre 		= $("#idNombre").val();
+	var apellido 	= $("#idApellido").val();
+	var edad 		= $("#idEdad").val();
+	var query = "";
+
+	if ((nombre !== "") && (nombre !== null))
+		query = query + "nombre="+nombre;
+
+	if ((apellido !== "") && (apellido !== null))
+		query = query + "&apellido="+apellido;
+
+	if ((edad !== "") && (edad !== null) && (!isNaN (edad)))
+		query = query + "&edad="+edad;
+
+	if ((query === null) || (query === ""))
+		alert("tiene que elegir algun campo!")
+	else 
+	{	var url = "http://localhost:3000/delete?"+query;
+		h.post(url)
+		.success(function(data,status,headers,config){
+			//l.path('/index');  si se quiere se vuelve a la pagina principal , o no
+			alert("se borro correctamente!");
+		})
+		.error(function(err){
+			console.log(err);
+		});
+	}
+	}
    }
   ]);
-
-function eliminarPersona(){
-	var nombre 		= $("#idNombre").value();
-	var apellido 	= $("#idApellido").value();
-	var edad 		= $("#idEdad").value();
-}
