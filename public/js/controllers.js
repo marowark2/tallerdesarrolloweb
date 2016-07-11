@@ -70,10 +70,6 @@ app.controller("allPersonasController",["$scope","$http","$route",function(s,h,r
       	  		arrNuevosValores.push($(this).text().trim());
   		 	});
 		});
-		// me fijo que valor cambio de los 3 que me importan
-		// se puede mejorar dado que NUNCA hay mas de 1 cambio por edicion
-		// con solo detectar 1 cambio, ya el resto no vale la pena seguir 
-		// controlando, pero bueno , anda
 		if (arrValores[0] !== arrNuevosValores[0])
 			arrQuery.push("nombre="+arrNuevosValores[0]);
 
@@ -129,7 +125,7 @@ app.controller("insertController", ["$scope","$http","$window","$location",funct
 
 		var url = "http://localhost:3000/insert?"+query;
 		h.post(url).success(function(data,status,headers,config){
-			//l.path('/index');  //si se quiere se vuelve a la pagina principal , o no
+			l.path('/index');  //si se quiere se vuelve a la pagina principal , o no
 			alert("Se inserto correctamente");
 		})
 		.error(function(err){
@@ -138,37 +134,3 @@ app.controller("insertController", ["$scope","$http","$window","$location",funct
 	}
 
 }]);
-/*
-app.controller("deleteController",["$scope","$http","$window","$location",function(s,h,w,l){
- s.eliminarPersona = function(){
-	var nombre 		= $("#idNombre").val();
-	var apellido 	= $("#idApellido").val();
-	var edad 		= $("#idEdad").val();
-	var query = "";
-
-	if ((nombre !== "") && (nombre !== null))
-		query = query + "nombre="+nombre;
-
-	if ((apellido !== "") && (apellido !== null))
-		query = query + "&apellido="+apellido;
-
-	if ((edad !== "") && (edad !== null) && (!isNaN (edad)))
-		query = query + "&edad="+edad;
-
-	if ((query === null) || (query === ""))
-		alert("tiene que elegir algun campo!")
-	else 
-	{	var url = "http://localhost:3000/delete?"+query;
-		h.post(url)
-		.success(function(data,status,headers,config){
-			//l.path('/index');  si se quiere se vuelve a la pagina principal , o no
-			alert("se borro correctamente!");
-		})
-		.error(function(err){
-			console.log(err);
-		});
-	}
-	}
-   }
-  ]);
-  */
