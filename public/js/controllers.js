@@ -8,21 +8,9 @@ app.config(function($routeProvider){
 	  .when("/index",{
 	  		templateUrl: "templates/main.html",
 	  })
-	  .when("/update",{
-	  	 	templateUrl: "templates/update.html",
-	      	controller: "updateController"
-	  })
-	  .when("/delete",{
-	  		templateUrl: "templates/delete.html",
-	     	controller: "deleteController"
-	  })
-	  .when("/insert",{
+	 .when("/insert",{
 	  		templateUrl: "templates/insert.html",
 	     	controller: "insertController"
-	  })
-	  .when("/search",{
-	  		templateUrl: "templates/search.html",
-	     	controller: "searchController"
 	  })
 	  .otherwise({ redirectTo : "/"});
 });
@@ -37,7 +25,9 @@ app.controller("initController",["$scope",function (m){
 	];
  }]);
 
-app.controller("allPersonasController",["$scope","$http",function(s,h){
+app.controller("allPersonasController",["$scope","$http","$route",function(s,h,r){
+	var arrValores = [];
+
 	h.get("http://localhost:3000/index")
 	.success(function(data){
 		s.personas = data;
@@ -48,24 +38,71 @@ app.controller("allPersonasController",["$scope","$http",function(s,h){
 	});
 
 	s.eliminarPersona = function(item){
-		var query = "";
-		query += "nombre="+item.nombre;
-		query += "&apellido="+item.apellido;
-		query += "&edad="+item.edad;
-
+		var query = "_id="+item._id;
 		var url = "http://localhost:3000/delete?"+query;
+
 		h.post(url)
 		.success(function(data,status,headers,config){
 			alert("se borro correctamente!");
+			r.reload();
 		})
 		.error(function(err){
 			console.log(err);
 		});
 	}
 
+	s.estadoViejo = function(id){
+		arrValores = []; // reseteo el arreglo
+		$("#"+id).each(function( i ) {
+  	   	 	$("td", this).each(function( j ) {
+      	  		arrValores.push($(this).text().trim());
+  		 	});
+		});
+	}
 
-   }
-  ]);
+	s.modificarPersona = function(id)
+	{
+		var arrNuevosValores = [];
+		var arrQuery = [];
+		
+		$("#"+id).each(function( i ) {
+  	   	 	$("td", this).each(function( j ) {
+      	  		arrNuevosValores.push($(this).text().trim());
+  		 	});
+		});
+		// me fijo que valor cambio de los 3 que me importan
+		// se puede mejorar dado que NUNCA hay mas de 1 cambio por edicion
+		// con solo detectar 1 cambio, ya el resto no vale la pena seguir 
+		// controlando, pero bueno , anda
+		if (arrValores[0] !== arrNuevosValores[0])
+			arrQuery.push("nombre="+arrNuevosValores[0]);
+
+		if (arrValores[1] !== arrNuevosValores[1])
+			arrQuery.push("apellido="+arrNuevosValores[1]);
+
+		if (arrValores[2] !== arrNuevosValores[2])
+			arrQuery.push("edad="+arrNuevosValores[2]);
+
+		var queryAux ="";
+		
+		arrQuery.forEach(function(entry) {
+    			queryAux += entry.trim()+"&";
+		});
+
+		if (queryAux !== "")
+		{		
+				var queryResult = queryAux.substr(0,queryAux.length-1);
+				var url = "http://localhost:3000/update?_id="+id+"&"+queryResult;
+				h.post(url)
+				.success(function(msj){
+					console.log("modificado correctamente");
+				})
+				.error(function(msj){
+					console.log("hubo error al modificar");
+				});
+		}
+	}
+  }]);
 
 app.controller("insertController", ["$scope","$http","$window","$location",function(s,h,w,l){
 	s.insertarPersona = function(){
@@ -73,15 +110,15 @@ app.controller("insertController", ["$scope","$http","$window","$location",funct
 		var apellido = $("#idApellido").val();
 		var edad = $("#idEdad").val();
 		var query = "";
-		if (nombre == ""){
+		if (nombre === ""){
 			alert("insertar nombre");
 			return false;
 		}
-		if (apellido == ""){
+		if (apellido === ""){
 			alert("insertar Apellido");
 			return false;
 		}
-		if (edad == ""){
+		if (edad === ""){
 			alert("insertar Edad");
 			return false;
 		}
@@ -92,7 +129,7 @@ app.controller("insertController", ["$scope","$http","$window","$location",funct
 
 		var url = "http://localhost:3000/insert?"+query;
 		h.post(url).success(function(data,status,headers,config){
-			l.path('/index');  //si se quiere se vuelve a la pagina principal , o no
+			//l.path('/index');  //si se quiere se vuelve a la pagina principal , o no
 			alert("Se inserto correctamente");
 		})
 		.error(function(err){

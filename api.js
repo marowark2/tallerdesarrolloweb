@@ -67,10 +67,27 @@ module.exports.deletePersona= function(req, res) {
 
 //UPDATE
 module.exports.updatePersona= function(req, res) {
-	var conditions = { nombre: 'Pedro' } , update = { edad:'10'},options = {upsert:true};
-	model.update(conditions,update,options,function(e,docs){ 
-			  res.send('se modifico correctamente');
-})
+	
+	var conditions = { _id: req.query._id };
+	var update;
+	
+	
+	if (req.query.nombre)
+		update = {nombre : req.query.nombre};
+	if (req.query.apellido)
+		update ={apellido: req.query.apellido};
+	if (req.query.edad)
+		update ={edad: req.query.edad};
+ 	
+	
+	var options = {upsert:true};
+
+	model.update(conditions,update,options,function(err,docs){ 
+		if (err)
+			res.send(err);
+		else 
+			res.send('se modifico correctamente');
+	})
 };
 
 // CAPTURE APP TERMINATION / RESTART EVENTS

@@ -5,12 +5,16 @@
 		<th>Apellido</th>
 		<th>Edad</th>
 	</tr>
-<!--{{personas[0].nombre}}-->
-	<tr ng-repeat="item in personas">		 
-		<td>{{item.nombre}}<b ng-if="!item.nombre">???</b></td> 
-		<td>{{item.apellido}}<b ng-if="!item.apellido">???</b></td> 
-		<td>{{item.edad}}<b ng-if="!item.edad">???</b></td>
-		<td><button id="btnEliminar" ng-click="eliminarPersona(item)">Eliminar</button></td> 
+
+	<tr ng-repeat="item in personas" id="{{item._id}}" >		 
+		<td contenteditable='true' ng-focus="estadoViejo(item._id)" ng-blur="modificarPersona(item._id)"> {{item.nombre}} <b ng-if="!item.nombre">???</b></td> 
+		<td contenteditable='true' ng-focus="estadoViejo(item._id)" ng-blur="modificarPersona(item._id)"> {{item.apellido}}<b ng-if="!item.apellido">???</b></td> 
+		<td contenteditable='true' ng-focus="estadoViejo(item._id)" ng-blur="modificarPersona(item._id)" valid-number> {{item.edad}}<b ng-if="!item.edad">???</b></td>
+		<td>
+			<form ng-submit="eliminarPersona(item)"  action="#/index" method="GET">
+				<input type="submit" id="idBorrar" value="Eliminar">
+			</form>
+		</td> 
 	</tr>
 </table>
 </div>
