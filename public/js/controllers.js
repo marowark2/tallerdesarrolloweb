@@ -20,7 +20,7 @@ app.controller("initController",["$scope",function (m){
  		display: "Inicio",
  		link:"index"},
 	{
-		display: "Agregar Persona",
+		display: "Agregar",
 		link:"insert"}
 	];
  }]);
